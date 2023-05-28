@@ -17,10 +17,16 @@ export const weatherConditions = {
       subtitle: 'Wyłącz komputer!',
       icon: 'weather-lightning'
     },
-    CLoudy: {
+    Cloudy: {
       color: '#b8b3cf',
       title: 'Pochmurnie',
       subtitle: 'Herbatka i kocyk',
       icon: 'weather-cloudy'
     },
+    Clear: {
+      color: '#9BE8FF',
+      title: 'Pogodnie',
+      subtitle: 'Ani chmurki!',
+      icon: 'weather-sunny'
+    }
   };
