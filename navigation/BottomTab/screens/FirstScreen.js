@@ -1,14 +1,36 @@
-// import React from 'react';
+// import React, { useEffect, useState } from 'react';
 // import { View, Text, StyleSheet } from 'react-native';
 // import { MaterialCommunityIcons } from '@expo/vector-icons';
-// import { weatherConditions } from '../../../utils/WeatherCondtions';
-// //import { withInternalTheme } from 'react-native-paper/lib/typescript/src/core/theming';
 
+// const FirstScreen = () => {
+//   const [weather, setWeather] = useState('');
+//   const [temperature, setTemperature] = useState('');
 
-// const FirstScreen = ({ weather , temperature }) => {
-//   console.log(temperature);
-//   console.log('dupa');
-//   console.log(temperature);
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const url = 'https://weatherapi-com.p.rapidapi.com/current.json?q=Wroclaw%20PL';
+//       const options = {
+//         method: 'GET',
+//         headers: {
+//           'X-RapidAPI-Key': 'fb19fa5406mshd72fa9bff19f124p1daef0jsn0655c92db202',
+//           'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+//         }
+//       };
+
+//       try {
+//         const response = await fetch(url, options);
+//         const result = await response.json();
+//         const { condition, temp_c } = result.current;
+//         setWeather(condition.text);
+//         setTemperature(temp_c);
+//       } catch (error) {
+//         console.error(error);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
 //   return (
 //     <View style={styles.weatherContainer}>
 //       <View style={styles.headerContainer}>
@@ -21,12 +43,7 @@
 //       </View>
 //     </View>
 //   );
-
 // };
-
-
-
-
 
 // const styles = StyleSheet.create({
 //   weatherContainer: {
@@ -37,10 +54,6 @@
 //     flex: 1,
 //     alignItems: 'center',
 //     justifyContent: 'center'
-//   },
-//   tempText: {
-//     fontSize: 48,
-//     color: '#fff'
 //   },
 //   bodyContainer: {
 //     flex: 2,
@@ -61,110 +74,85 @@
 
 // export default FirstScreen;
 
-// import React from 'react';
-// import { View, Text, StyleSheet } from 'react-native';
-// import { MaterialCommunityIcons } from '@expo/vector-icons';
-// import { weatherConditions } from '../../../utils/WeatherCondtions';
 
-// const FirstScreen = ({ weather, temperature }) => {
-//   return (
-//     <View style={styles.weatherContainer}>
-//       <View style={styles.headerContainer}>
-//         <MaterialCommunityIcons size={48} name="weather-sunny" color={'#fff'} />
-//         <Text style={styles.tempText}>{temperature}°C</Text> {/* Dodano styl dla temperatury */}
-//       </View>
-//       <View style={styles.bodyContainer}>
-//         <Text style={styles.title}>{weather}</Text>
-//         <Text style={styles.subtitle}>Idziemy na Wyspę!</Text>
-//       </View>
-//     </View>
-//   );
-// };
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { weatherConditions } from '../../../utils/WeatherCondtions';
 
-// const styles = StyleSheet.create({
-//   weatherContainer: {
-//     flex: 1,
-//     backgroundColor: '#AED6F1'
-//   },
-//   headerContainer: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center'
-//   },
-//   tempText: {
-//     fontSize: 48,
-//     color: '#fff'
-//   },
-//   bodyContainer: {
-//     flex: 2,
-//     alignItems: 'flex-start',
-//     justifyContent: 'flex-end',
-//     paddingLeft: 25,
-//     marginBottom: 40
-//   },
-//   title: {
-//     fontSize: 48,
-//     color: '#fff'
-//   },
-//   subtitle: {
-//     fontSize: 24,
-//     color: '#fff'
-//   }
-// });
+const FirstScreen = () => {
+  const [weather, setWeather] = useState('');
+  const [temperature, setTemperature] = useState('');
+  const [weatherStyle, setWeatherStyle] = useState({});
 
-// export default FirstScreen;
+  useEffect(() => {
+    const fetchData = async () => {
+      const url = 'https://weatherapi-com.p.rapidapi.com/current.json?q=Wroclaw%20PL';
+      const options = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': 'fb19fa5406mshd72fa9bff19f124p1daef0jsn0655c92db202',
+          'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+        }
+      };
 
-// import React from 'react';
-// import { StyleSheet, Text, View } from 'react-native';
+      try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        const { condition, temp_c } = result.current;
+        setWeather(condition.text);
+        setTemperature(temp_c);
 
-// const FirstScreen = ({ weather, temperature }) => {
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.text}>Weather: {weather}</Text>
-//       <Text style={styles.text}>Temperature: {temperature}°C</Text>
-//     </View>
-//   );
-// };
+        const weatherKey = condition.text.trim();
+        if (weatherKey in weatherConditions) {
+          setWeatherStyle(weatherConditions[weatherKey]);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   text: {
-//     fontSize: 20,
-//     fontWeight: 'bold',
-//   },
-// });
+    fetchData();
+  }, []);
 
-// export default FirstScreen;
-
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
-const FirstScreen = ({ weather, temperature }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.weatherText}>Warunki: {weather}</Text>
-      <Text style={styles.temperatureText}>Temperatura: {temperature}°C</Text>
+    <View style={[styles.weatherContainer, { backgroundColor: weatherStyle.color }]}>
+      <View style={styles.headerContainer}>
+        <MaterialCommunityIcons size={48} name={weatherStyle.icon} color={'#fff'} />
+        <Text style = {styles.title}>{temperature}°C</Text>
+      </View>
+      <View style={styles.bodyContainer}>
+        <Text style={styles.title}>{weatherStyle.title}</Text>
+        <Text style={styles.subtitle}>{weatherStyle.subtitle}</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  weatherContainer: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  weatherText: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  headerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  temperatureText: {
-    fontSize: 18,
+  bodyContainer: {
+    paddingLeft:0,
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    marginTop: 20,
   },
+  title: {
+    fontSize: 48,
+    color: '#fff'
+  },
+  subtitle: {
+    fontSize: 24,
+    color: '#fff'
+  }
 });
 
 export default FirstScreen;
