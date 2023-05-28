@@ -146,8 +146,8 @@ import { StyleSheet, Text, View } from 'react-native';
 const FirstScreen = ({ weather, temperature }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.weatherText}>Weather: {weather}</Text>
-      <Text style={styles.temperatureText}>Temperature: {temperature}°C</Text>
+      <Text style={styles.weatherText}>Warunki: {weather}</Text>
+      <Text style={styles.temperatureText}>Temperatura: {temperature}°C</Text>
     </View>
   );
 };
