@@ -4,9 +4,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { weatherConditions } from '../../../utils/WeatherCondtions';
 
 const FirstScreen = () => {
-  const [weather, setWeather] = useState('');
-  const [temperature, setTemperature] = useState('');
-  const [weatherStyle, setWeatherStyle] = useState({});
+  const [weather, setWeather] = useState(''); // Stan pogody
+  const [temperature, setTemperature] = useState(''); // Stan temperatury
+  const [weatherStyle, setWeatherStyle] = useState({}); // Stan stylu pogody
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,12 +24,12 @@ const FirstScreen = () => {
         const result = await response.json();
         console.log(result)
         const { condition, temp_c } = result.current;
-        setWeather(condition.text);
-        setTemperature(temp_c);
+        setWeather(condition.text); // Aktualizacja stanu pogody
+        setTemperature(temp_c); // Aktualizacja stanu temperatury
 
         const weatherKey = condition.text.trim();
         if (weatherKey in weatherConditions) {
-          setWeatherStyle(weatherConditions[weatherKey]);
+          setWeatherStyle(weatherConditions[weatherKey]); // Aktualizacja stanu stylu pogody
         }
       } catch (error) {
         console.error(error);
@@ -39,11 +39,11 @@ const FirstScreen = () => {
     fetchData();
   }, []);
 
-  return (
-    <View style={[styles.weatherContainer, { backgroundColor: weatherStyle.color }]}>
+  return ( // Wyświetlanie pogody
+    <View style={[styles.weatherContainer, { backgroundColor: weatherStyle.color }]}> 
       <View style={styles.headerContainer}>
         <MaterialCommunityIcons size={48} name={weatherStyle.icon} color={'#fff'} />
-        <Text style = {styles.title}>{temperature}°C</Text>
+        <Text style={styles.title}>{temperature}°C</Text>
       </View>
       <View style={styles.bodyContainer}>
         <Text style={styles.title}>{weatherStyle.title}</Text>
@@ -64,9 +64,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   bodyContainer: {
-    paddingLeft:0,
-    //alignItems: 'center',
-    //justifyContent: 'center',
+    paddingLeft: 0,
     marginTop: 20,
   },
   title: {

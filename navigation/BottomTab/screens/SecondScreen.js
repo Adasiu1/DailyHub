@@ -4,11 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 
 const SecondScreen = () => {
   const navigation = useNavigation();
-  const [newsData, setNewsData] = useState([]); // State variable to store news data
-  const [expandedArticles, setExpandedArticles] = useState([]); // State variable to track expanded articles
+  const [newsData, setNewsData] = useState([]); // dane wiadomosci
+  const [expandedArticles, setExpandedArticles] = useState([]); //ktore artykuly sa rozwinięte
 
   useEffect(() => {
-    fetchNewsData(); // Fetch news data when the component mounts
+    fetchNewsData(); // pobieranie newsow
   }, []);
 
   const fetchNewsData = async () => {
@@ -17,28 +17,28 @@ const SecondScreen = () => {
         'https://newsapi.org/v2/top-headlines?country=us&apiKey=68154425776d46c591e138c7297da56c'
       );
       const data = await response.json();
-      setNewsData(data.articles); // Update news data state with fetched data
-      setExpandedArticles(new Array(data.articles.length).fill(false)); // Initialize expanded articles state with false values
+      setNewsData(data.articles); // Zaktualizuj stan danych 
+      setExpandedArticles(new Array(data.articles.length).fill(false)); //rozwiniecie artykulow na false
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleNewsItemPress = (articleUrl) => {
-    navigation.navigate('ArticleScreen', { url: articleUrl }); // Navigate to the ArticleScreen with the selected article URL
-  };
+  // const handleNewsItemPress = (articleUrl) => {
+  //   navigation.navigate('ArticleScreen', { url: articleUrl }); //nie dziala poki co
+  // };
 
   const toggleExpanded = (articleIndex) => {
     setExpandedArticles((prevExpandedArticles) => {
       const updatedExpandedArticles = [...prevExpandedArticles];
-      updatedExpandedArticles[articleIndex] = !updatedExpandedArticles[articleIndex]; // Toggle the expanded state of the selected article
+      updatedExpandedArticles[articleIndex] = !updatedExpandedArticles[articleIndex]; // Przełącz stan rozwinięcia dla wybranego artykułu
       return updatedExpandedArticles;
     });
   };
 
   const renderNewsItem = ({ item, index }) => {
-    const isExpanded = expandedArticles[index] || false; // Check if the article at the given index is expanded
-
+    const isExpanded = expandedArticles[index] || false; // Sprawdź, czy artykuł o danym indeksie jest rozwinięty
+  
     return (
       <TouchableOpacity
         style={styles.newsItemContainer}
@@ -47,32 +47,33 @@ const SecondScreen = () => {
         <Image source={{ uri: item.urlToImage }} style={styles.newsImage} />
         <Text style={styles.newsTitle}>{item.title}</Text>
         {isExpanded && <Text style={styles.newsDescription}>{item.description}</Text>}
-        {isExpanded ? (
+        {isExpanded ? ( // Jeśli artykuł jest rozwinięty
           <TouchableOpacity
             style={styles.readMoreButton}
             onPress={() => toggleExpanded(index)}
           >
-            <Text style={styles.readMoreButtonText}>Czytaj mniej</Text>
+            <Text style={styles.readMoreButtonText}>Czytaj mniej</Text> // Wyświetl przycisk "Czytaj mniej"
           </TouchableOpacity>
-        ) : (
+        ) : ( // Jeśli artykuł nie jest rozwinięty
           <TouchableOpacity
             style={styles.readMoreButton}
             onPress={() => toggleExpanded(index)}
           >
-            <Text style={styles.readMoreButtonText}>Czytaj więcej</Text>
+            <Text style={styles.readMoreButtonText}>Czytaj więcej</Text> // Wyświetl przycisk "Czytaj więcej"
           </TouchableOpacity>
         )}
       </TouchableOpacity>
     );
   };
+  
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Wiadomości</Text>
       <FlatList
-        data={newsData} // Set the news data as the data source for the FlatList
-        renderItem={renderNewsItem} // Render each news item using the renderNewsItem function
-        keyExtractor={(item) => item.url} // Use the article URL as the key for each item
+        data={newsData} // newsy z api do flatlist
+        renderItem={renderNewsItem} // Renderuj każdy element wiadomości przy użyciu funkcji renderNewsItem
+        keyExtractor={(item) => item.url} // Użyj adresu URL artykułu jako klucza dla każdego elementu
       />
     </View>
   );
@@ -142,4 +143,3 @@ const styles = StyleSheet.create({
 });
 
 export default SecondScreen;
-

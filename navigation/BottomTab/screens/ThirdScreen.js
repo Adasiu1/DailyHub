@@ -6,7 +6,7 @@ import { Alert } from 'react-native';
 import { Dimensions } from 'react-native';
 
 const ThirdScreen = () => {
-  // Variables
+  // Zmienne
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventsData, setEventsData] = useState([]);
@@ -17,18 +17,18 @@ const ThirdScreen = () => {
   const calendarWidth = width * 0.9;
   const calendarHeight = height * 0.85;
 
-  // Fetch events data on component mount
+  // ladowanie wydarzen 
   useEffect(() => {
-    getEventsData().then((data) => setEventsData(data));
+    getEventsData().then((data) => setEventsData(data)); 
   }, []);
 
-  // Create marked dates for the calendar
+  // daty z wydarzeniem sa zaznaczone
   const markedDate = {};
   eventsData.forEach((event) => {
     markedDate[event.date] = { selected: true, marked: true };
   });
 
-  // Handle date selection from the calendar
+  // wybór daty z kalendarza
   const handleDateSelect = (date) => {
     const event = eventsData.find((event) => event.date === date.dateString);
     setSelectedDate(date.dateString);
@@ -37,7 +37,7 @@ const ThirdScreen = () => {
     setEventDescription('');
   };
 
-  // Handle adding a new event
+  // dodawanie nowego wydarzenia
   const handleAddEvent = async () => {
     if (!eventName) {
       Alert.alert('Błąd', 'Wprowadź nazwę wydarzenia.');
@@ -65,12 +65,12 @@ const ThirdScreen = () => {
     }
   };
 
-  // Handle editing an event
+  // Obsłuż edycję wydarzenia
   const handleEditEvent = () => {
     setIsEditing(true);
   };
 
-  // Handle saving changes to an event
+  // Obsłuż zapisywanie zmian w wydarzeniu
   const handleSaveEvent = async () => {
     if (!eventName) {
       Alert.alert('Błąd', 'Wprowadź nazwę wydarzenia.');
@@ -100,10 +100,10 @@ const ThirdScreen = () => {
     }
   };
 
-  // Handle deleting an event
+  //  usuwanie wydarzenia
   const handleDeleteEvent = async () => {
     try {
-      const filteredEventsData = eventsData.filter(
+      const filteredEventsData = eventsData.filter( 
         (event) => event.date !== selectedDate
       );
 
@@ -118,7 +118,7 @@ const ThirdScreen = () => {
     }
   };
 
-  // Retrieve events data from the file system
+  // ladowanie wydarzen z jsona
   const getEventsData = async () => {
     const filePath = `${FileSystem.documentDirectory}events.json`;
     const fileExists = await FileSystem.getInfoAsync(filePath);
@@ -131,7 +131,7 @@ const ThirdScreen = () => {
     }
   };
 
-  // Save events data to the file system
+  // zapisywanie wydarzen do jsona
   const saveEventsData = async (eventsData) => {
     const filePath = `${FileSystem.documentDirectory}events.json`;
     const fileContent = JSON.stringify(eventsData);
@@ -141,7 +141,6 @@ const ThirdScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.calendarContainer}>
-        {/* Calendar component */}
         <Calendar
           markedDates={markedDate}
           onDayPress={handleDateSelect}
@@ -157,17 +156,17 @@ const ThirdScreen = () => {
 
       {selectedEvent && !isEditing && (
         <View style={styles.eventContainer}>
-          {/* Display selected event details */}
+          {/* Wyświetl szczegóły*/}
           <Text style={styles.eventTitle}>{selectedEvent.name}</Text>
           <Text style={styles.eventDescription}>{selectedEvent.description}</Text>
-          {/* Edit event button */}
+          {/* edit button */}
           <TouchableOpacity
             style={[styles.button, { backgroundColor: '#9370DB' }]}
             onPress={handleEditEvent}
           >
             <Text style={[styles.buttonText, { color: 'white' }]}>Edytuj wydarzenie</Text>
           </TouchableOpacity>
-          {/* Delete event button */}
+          {/* delete button*/}
           <TouchableOpacity
             style={[styles.button, { backgroundColor: 'red', marginTop: 8 }]}
             onPress={handleDeleteEvent}
@@ -179,7 +178,7 @@ const ThirdScreen = () => {
 
       {selectedEvent && isEditing && (
         <View style={styles.formContainer}>
-          {/* Event editing form */}
+          {/* Formularz */}
           <TextInput
             style={styles.input}
             placeholder="Nazwa wydarzenia"
@@ -192,7 +191,7 @@ const ThirdScreen = () => {
             value={eventDescription}
             onChangeText={(text) => setEventDescription(text)}
           />
-          {/* Save changes button */}
+          {/*zapisywanie zmian */}
           <TouchableOpacity
             style={[styles.button, { backgroundColor: '#9370DB' }]}
             onPress={handleSaveEvent}
@@ -204,7 +203,7 @@ const ThirdScreen = () => {
 
       {!selectedEvent && (
         <View style={styles.formContainer}>
-          {/* Event creation form */}
+          {/* Formularz tworzenia wydarzenia */}
           <TextInput
             style={styles.input}
             placeholder="Nazwa wydarzenia"
@@ -217,7 +216,7 @@ const ThirdScreen = () => {
             value={eventDescription}
             onChangeText={(text) => setEventDescription(text)}
           />
-          {/* Add event button */}
+          {/* Przycisk dodawania wydarzenia */}
           <TouchableOpacity
             style={[styles.button, { backgroundColor: '#9370DB' }]}
             onPress={handleAddEvent}
