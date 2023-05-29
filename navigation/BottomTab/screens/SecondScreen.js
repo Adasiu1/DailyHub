@@ -52,14 +52,14 @@ const SecondScreen = () => {
             style={styles.readMoreButton}
             onPress={() => toggleExpanded(index)}
           >
-            <Text style={styles.readMoreButtonText}>Czytaj mniej</Text> // Wyświetl przycisk "Czytaj mniej"
+            <Text style={styles.readMoreButtonText}>Czytaj mniej</Text> 
           </TouchableOpacity>
         ) : ( // Jeśli artykuł nie jest rozwinięty
           <TouchableOpacity
             style={styles.readMoreButton}
             onPress={() => toggleExpanded(index)}
           >
-            <Text style={styles.readMoreButtonText}>Czytaj więcej</Text> // Wyświetl przycisk "Czytaj więcej"
+            <Text style={styles.readMoreButtonText}>Czytaj więcej</Text> 
           </TouchableOpacity>
         )}
       </TouchableOpacity>
