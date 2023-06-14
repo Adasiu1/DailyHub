@@ -17,7 +17,7 @@ export const weatherConditions = {
       subtitle: 'Wyłącz komputer!',
       icon: 'weather-lightning'
     },
-    Cloudy: {
+    Overcast: {
       color: '#b8b3cf',
       title: 'Pochmurnie',
       subtitle: 'Herbatka i kocyk',
