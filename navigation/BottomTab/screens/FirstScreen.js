@@ -40,7 +40,8 @@ const FirstScreen = () => {
         console.log(result);
         setWeather(condition.text);
         setTemperature(temp_c);
-        const weatherKey = condition.text.trim();
+        const weatherKey = condition.text.trim().replace(/\s/g, '');
+        console.log(weatherKey)
         if (weatherKey in weatherConditions) {
           setWeatherStyle(weatherConditions[weatherKey]);
         }
